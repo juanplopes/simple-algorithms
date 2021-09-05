@@ -7,8 +7,8 @@ def is_left_turn(a, b, c):
     return ((b[0] - a[0])*(c[1] - a[1]) - (b[1] - a[1])*(c[0] - a[0])) >= 0;
 
 def monotone_chain(points):
-    points.sort
-    hull = [];
+    points.sort()
+    hull = []
     
     for point in points:
         while len(hull) >= 2 and is_left_turn(hull[-1], hull[-2], point):
@@ -21,7 +21,7 @@ def monotone_chain(points):
         while len(hull) >= fixed + 2 and is_left_turn(hull[-1], hull[-2], point):
             hull.pop()
         hull.append(point)
-    
+        
     return hull;
 
 
