@@ -18,7 +18,7 @@ def dfs(network, source, sink, flow, visited):
 def ford_fulkerson(graph, source, sink):
     #initialize residual network with default capacity 0 for undefined nodes
     network = [collections.defaultdict(lambda: 0, neighbors)
-               for node, neighbors in enumerate(graph)]
+               for neighbors in graph]
     total = 0
     while True:
         sent = dfs(network, source, sink, float('+Inf'), set())
