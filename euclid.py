@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 def euclid(a, b):
-    if not b: return (a, 1, 0)
+    if b == 0: return (a, 1, 0)
     q = a // b
     gcd, x, y = euclid(b, a - q * b)
     return gcd, y, x - q * y
