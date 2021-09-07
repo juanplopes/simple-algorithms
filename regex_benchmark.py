@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import collections, functools, sys
+import collections, functools, sys, timeit, re
 
 def rex(pattern):
     tokens = collections.deque(pattern)
@@ -47,7 +47,7 @@ class Machine(object):
         self.states = states
         self.n = len(states)
         
-    def matcher(self, string):
+    def match(self, string):
         A, B, V = list(), list(), [-1]*len(self.states)
             
         def addnext(start, i, j):
@@ -65,8 +65,7 @@ class Machine(object):
 
         answer = None
         for i, c in enumerate(string):
-            addnext(i, i, 0)
-            yield i, answer, B
+            if i == 0: addnext(i, i, 0)
             
             A, B = B, A
             del B[:]
@@ -75,27 +74,28 @@ class Machine(object):
                 if self.states[j] in (None, c) and addnext(start, i+1, j+1):
                     answer = max(answer, (start, i+1), key=key)
             
-        yield len(string), answer, B
-        
-    def match(self, string):
-        return functools.reduce(lambda _, s: s[1], self.matcher(string), None)
+        return answer and answer[1] == len(string)
+     
      
     def source(self):
         for s in self.states:
             if isinstance(s, tuple): 
                 yield 'JUMP ' + ' OR '.join(['{0:+d}'.format(x) for x in s]) 
             else: 
-                yield 'CONSUME ''+ str(s) + "'"
+                yield 'CONSUME "'+ str(s) + "'"
         yield 'MATCH!'
        
     def __repr__(self):
         return '\n'.join('{:04d}: {}'.format(i, s) for i, s in enumerate(self.source()))
 
-if (len(sys.argv) < 2):
-    print(f'Usage: {sys.argv[0]} PATTERN STR1 STR_2 STR_N')
-    sys.exit(1)
+def test_default(size):
+    re.match('^(a?a)+b$', 'a' * size)
 
-matcher = rex(sys.argv[1])
-print(matcher)
-for s in sys.argv[2:]:
-    print(f'{s}: {matcher.match(s)}')
+def test_optimized(size):
+    rex('(a?a)+b').match('a' * size)
+
+
+for i in range(1, 100):
+    time_default = timeit.timeit(lambda: test_default(i), number = 10)
+    time_optimized = timeit.timeit(lambda: test_optimized(i), number = 10)
+    print(f'{i}\t{time_default}\t{time_optimized}')
