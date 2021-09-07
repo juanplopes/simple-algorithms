@@ -85,7 +85,7 @@ class Machine(object):
             if isinstance(s, tuple): 
                 yield 'JUMP ' + ' OR '.join(['{0:+d}'.format(x) for x in s]) 
             else: 
-                yield 'CONSUME ''+ str(s) + "'"
+                yield 'CONSUME "'+ str(s) + '"' 
         yield 'MATCH!'
        
     def __repr__(self):
