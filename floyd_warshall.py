@@ -2,7 +2,7 @@
 
 import heapq
 
-def floyd_warshal(graph):
+def floyd_warshall(graph):
     best = [[float('+Inf')] * len(graph) for _ in graph]
     for node, neighbors in enumerate(graph):
         best[node][node] = 0
@@ -23,4 +23,4 @@ graph = [
     [(2, 1)],
 ]
 
-print(floyd_warshal(graph))
+print(floyd_warshall(graph))
