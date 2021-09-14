@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import random, heapq
-
 def is_left_turn(a, b, c):
     #determines if three points make a left turn
     return ((b[0] - a[0])*(c[1] - a[1]) - (b[1] - a[1])*(c[0] - a[0])) >= 0;
