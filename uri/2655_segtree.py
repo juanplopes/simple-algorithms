@@ -39,10 +39,8 @@ while True:
         for i in range(Q):
             cmd, a, b = map(int, input().split())
             if cmd == 1:
-                monster_types = T.query(a, b+1)
-                print(bin(monster_types).count('1'))
+                print(bin(T.query(a, b+1)).count('1'))
             elif cmd == 2:
                 T.set(a, 1 << b)
-                
     except EOFError:
         break
