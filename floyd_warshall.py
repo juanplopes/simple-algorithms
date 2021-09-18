@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import heapq
-
 def floyd_warshall(graph):
     best = [[float('+Inf')] * len(graph) for _ in graph]
     for node, neighbors in enumerate(graph):
